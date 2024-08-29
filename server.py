@@ -1,6 +1,7 @@
 import socket
 from router_middleware import middleware_router
 from http_parser import request_parser
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.bind(("127.0.0.1", 8000))
     s.listen()
