@@ -1,5 +1,6 @@
 # we need to parse the http request given to us, and turn it into the Request object and return that
 from request_response import Request, Response
+from datetime import time, date
 
 # takes the raw data and turns it into a request object
 def request_parser(data):
@@ -30,4 +31,48 @@ def header_parser(http_text):
             else: 
                 pass
     return header_value_dict
-            
+
+# response parser - will create valid http response objects containing the content in the .js, .css, or .html files that are given to it
+def response_parser(http_request, filename, code=200):
+    # this will handle if the file isn't found
+    response_object = create_response(filename, http_request.version, code)
+    return response_object
+       
+def create_response(filename, version, code):
+    response = Response("","","","","")
+    http_text = ""
+    http_length = 0
+    try:
+        file = open(filename)
+        for line in file:
+            http_text += line
+            http_length += len(line)
+        file.close()
+        response.text = http_text
+    except FileNotFoundError:
+        # have the response be a 404 file not found
+        response.code = 404
+        response.headers = {"Server" : "DevinIsCool",
+                            "Date" : f"{time} | {date}",
+                            "Connection" : "close",
+                            "Cache-Control" : "max-age-2"
+                            }
+        response.reason = "Not Found"
+        response.version = version   
+        return response     
+    # account for other errors
+    
+    # if we've made it here that means everything's all good!
+    # .js, .css, and .html files all start with the 'text/' string for the 'content-type' header
+    response.code = code
+    response.headers = {"Server" : "DevinIsCool",
+                            "Date" : f"{time} | {date}",
+                            "Connection" : "close",
+                            "Cache-Control" : "max-age-2",
+                            "Content-Length" : f"{http_length}"
+                            }
+    response.reason = "OK"
+    response.version = version
+    response.text = http_text        
+    return response    
+        
