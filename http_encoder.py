@@ -6,21 +6,7 @@ from datetime import time, date
 def encoder(http_request, filename, code=200):
     # this will handle if the file isn't found
     response_object = create_response(filename, http_request.version, code)
-    
-    # make sure everything is seperated by spaces in the first line
-    response = f"{response_object.version} " \
-            + f"{response_object.code} " \
-            + f"{response_object.reason}\n"
-    
-    # get the headers 
-    headers = ""
-    print(response)
-    for header, value in response_object.headers.items():
-        headers += header + ": " + value + "\n"
-        
-    response += headers + "\n" + response_object.text
-    encoded_response = bytes(response, "UTF-8")
-    return encoded_response
+    return response_object
             
 def create_response(filename, version, code):
     response = Response("","","","","")
