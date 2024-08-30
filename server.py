@@ -4,9 +4,9 @@ from http_parser import request_parser
 from http_encoder import encoder
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.bind(("127.0.0.1", 8000))
+    s.bind(("127.0.0.1", 8080))
     s.listen()
-    print("listening on port 8000")
+    print("listening on port 8080")
 
     while True:
         connection, addr = s.accept()
