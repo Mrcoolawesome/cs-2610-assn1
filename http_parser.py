@@ -80,7 +80,7 @@ def create_response(filename, http_request, code):
             "Date" : f"{current_time}",
             "Connection" : "close",
             "Cache-Control" : "max-age-2",
-            "Content-Type" : f"text/{file_type}"
+            "Content-Type" : f"text/html"
             }
         response.reason = "Not Found"
         response.version = http_request.version
