@@ -5,11 +5,14 @@ def encoder(response_object):
             + f"{response_object.code} " \
             + f"{response_object.reason}\n"
     
-    # get the headers 
+    # convert each header 
     headers = ""
     for header, value in response_object.headers.items():
         headers += header + ": " + value + "\n"
         
+    # add the headers and body onto the http response, making sure to leave a newline between the two
     response += headers + "\n" + response_object.text
+    
+    # convert the response into bytes and return it to the server
     encoded_response = bytes(response, "UTF-8")
     return encoded_response
