@@ -1,4 +1,3 @@
-# we need to parse the http request given to us, and turn it into the Request object and return that
 from request_response import Request, Response
 from datetime import datetime
 
@@ -48,7 +47,7 @@ def response_parser(http_request, filename, code=200):
 def create_response(filename, http_request, code):
     # get the current time
     now = datetime.now()
-    current_time = now.strftime("%Y-%m-%d %H:%M:%S")
+    current_time = now.strftime("%a, %d %b %Y %H:%M:%S GMT")
     
     # create the response object and initalize its attributes
     response = Response("","","","","")
@@ -71,7 +70,6 @@ def create_response(filename, http_request, code):
         
         # add the text to the response object
         response.text = http_text
-        
     except FileNotFoundError:
         # have the response be a 404 file not found, with a basic header to explain what happened
         response.code = 404
@@ -95,14 +93,12 @@ def create_response(filename, http_request, code):
             "Date" : f"{current_time}",
             "Connection" : "close",
             "Cache-Control" : "max-age-2",
-            "Location" : f"http://localhost:8000{http_request.uri}"}
+            "Location" : f"http://localhost:8000/about"}
         response.reason = "Moved Permenantly"
         response.version = http_request.version
-    
-    # if we've made it here that means everything's all good and the response code is 200!
-    # .js, .css, and .html files all start with the 'text/' string for the 'content-type' header
-    else:
+    else: # if we've made it here that means everything's all good and the response code is 200!
         response.code = code
+        # .js, .css, and .html files all start with the 'text/' string for the 'content-type' header value
         response.headers = {
             "Server" : "DevinIsCool",
             "Date" : f"{current_time}",

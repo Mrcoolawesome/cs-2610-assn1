@@ -23,8 +23,7 @@ def router_middleware_factory(next):
                     return value(http_object)
         
         res = next(http_object)
-        
-        # if anything besides a response object was returned then the page was not found, and the response_parser will return a 404 error
+        # if anything besides a response object was returned then the page was not found. the response_parser will return a 404 error
         if res != isinstance(res, Response):
             filename = f"static{http_object.uri}"
             response = response_parser(http_object, filename)

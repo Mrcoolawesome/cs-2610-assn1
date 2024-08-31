@@ -1,5 +1,6 @@
 from http_parser import response_parser
 
+# each endpoint returns a response object based on the request and their corresponding file
 def home(http_request):
     return response_parser(http_request, "templates/index.html")
 
